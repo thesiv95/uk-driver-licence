@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Licence Number Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body{font-size:24px}.datepicker{font-size:inherit!important}#lgLicence{font-size:21px!important}.modal-para{text-indent:1.25em;line-height:1.5em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="divider"></div>
+            <div class="section">
+                <h2 class="center">UK Licence Number Generator</h2>
+            </div>
+            <form id="lgForm" method="POST" action="/api/generate">
+                <!-- lg = licence generator -->
+                <div class="col s12">
+                    <!-- .valid, .invalid materialize classes -->
+                    <div class="input-field">
+                        <input id="lgFirstName" name="lgFirstName" type="text">
+                        <label for="lgFirstName">First Name</label>
+                    </div>
+                    
+                </div>
+                <div class="col s12">
+                    <div class="input-field">
+                        <input id="lgMiddleName" name="lgMiddleName" type="text">
+                        <label for="lgMiddleName">Middle Name (optional)</label>
+                    </div>
+                    
+                </div>
+                <div class="col s12">
+                    <div class="input-field">
+                        <input id="lgLastName" name="lgLastName" type="text">
+                        <label for="lgLastName">Last Name</label>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="input-field">
+                        <input id="lgDate" name="lgDate" type="text" class="datepicker">
+                        <label for="lgDate">Date of birth</label>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <label>
+                        <input id="lgSex_M" name="lgSex" type="radio" value="M" checked />
+                        <span>male</span>
+                    </label>
+                </div>
+                <div class="col s6">
+                    <label>
+                        <input id="lgSex_F" name="lgSex" type="radio" value="F" />
+                        <span>female</span>
+                    </label>
+                </div>
+                <div class="col s6">
+                    <div class="input-field">
+                        <button id="lgBtnSubmit" class="btn waves-effect waves-light" type="submit">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="input-field">
+                        <button id="lgBtnReset" class="btn waves-effect waves-light white black-text" type="reset">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col s6">
+                <div class="input-field">
+                    <input id="lgLicence" name="lgLicence" type="text" value="<%= data %>" class="center" readonly>
+                </div>
+            </div>
+            <div class="col s6">
+                <div class="input-field">
+                    <button id="lgBtnCopy" class="btn waves-effect waves-light white black-text">
+                        Copy
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s4 center">
+                <a class="waves-effect waves-light modal-trigger modal-close" href="#modalGeneralInformation">General Information</a>
+            </div>
+            <div class="col s4 center">
+                <a class="waves-effect waves-light modal-trigger modal-close" href="#modalCredits">Credits</a>
+            </div>
+            <div class="col s4 center">
+                <a class="waves-effect waves-light modal-trigger modal-close" href="#modalRules">Generation Rules</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div id="modalGeneralInformation" class="modal">
+        <div class="modal-content">
+            <h4>General information</h4>
+            <p class="modal-para">In the United Kingdom, the driving licence is the official document which authorises its holder to operate various types of motor vehicle on highways and some other roads to which the public have access. In England, Scotland and Wales they are administered by the Driver and Vehicle Licensing Agency (DVLA) and in Northern Ireland by the Driver & Vehicle Agency (DVA). A driving licence is required in the UK by any person driving a vehicle on any highway or other road defined in s.192 Road Traffic Act 1988 irrespective of ownership of the land over which the road passes, thus including many which allow the public to pass over private land; similar requirements apply in Northern Ireland under the Road Traffic (Northern Ireland) Order 1981. (Source <a href="https://en.wikipedia.org/wiki/Driving_licence_in_the_United_Kingdom" target="_blank">Wikipedia</a>)</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+          </div>
+    </div>
+    <!-- /Modal -->
+
+    <!-- Modal -->
+    <div id="modalCredits" class="modal">
+        <div class="modal-content">
+            <h4>Credits</h4>
+            <p class="modal-para">
+                &copy; <a href="https://thesiv95-cv.herokuapp.com" target="_blank">SIV</a>, 2020
+            </p>
+            <p class="modal-para">
+                Idea:
+                <a href="https://www.codewars.com/kata/586a1af1c66d18ad81000134" target="_blank">CodeWarriors</a> 
+                (thanks to the author 
+                <a href="https://github.com/adrianeyre" target="_blank">Adrian Eyre</a>)!
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+          </div>
+    </div>
+    <!-- /Modal -->
+
+    <!-- Modal -->
+    <div id="modalRules" class="modal">
+        <div class="modal-content">
+            <h4>Rules of licence number</h4>
+            <p class="modal-para">
+                <em>1-5:</em> The first five characters of the surname (padded with 9s if less than 5 characters).
+            </p>
+            <p class="modal-para">
+                <em>6:</em> The decade digit from the year of birth (e.g. for 1987 it would be 8).
+            </p>
+            <p class="modal-para">
+                <em>7–8:</em> The month of birth (7th character incremented by 5 if driver is female i.e. 51–62 instead of 01–12).
+            </p>
+            <p class="modal-para">
+                <em>9–10:</em> The date within the month of birth.
+            </p>
+            <p class="modal-para">
+                <em>11:</em> The year digit from the year of birth (e.g. for 1987 it would be 7).
+            </p>
+            <p class="modal-para">
+                <em>12-13:</em> The first two initials of the first name and middle name, padded with a 9 if no middle name.
+            </p>
+            <p class="modal-para">
+                <em>14:</em> Arbitrary digit – usually 9, but decremented to differentiate drivers with the first 13 characters in common. Actually 9 is always used.
+            </p>
+            <p class="modal-para">
+                <em>15–16:</em> Two computer check digits. Actually &quot;AA&quot; is always used.
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+          </div>
+    </div>
+    <!-- /Modal -->
+        
+   
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        const doc=document;let lgForm=doc.querySelector("#lgForm"),lgLicence=doc.querySelector("#lgLicence"),lgBtnCopy=doc.querySelector("#lgBtnCopy");lgBtnCopy.addEventListener("click",()=>{lgLicence.select(),lgLicence.setSelectionRange(0,99999),doc.execCommand("copy"),lgBtnCopy.innerText="Copied!",setTimeout(()=>{lgBtnCopy.innerText="Copy"},2e3),clearTimeout()}),doc.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".datepicker");M.Datepicker.init(e,{format:"dd-mmm-yyyy",defaultDate:new Date,minDate:new Date("1970-01-01T00:00:00"),maxDate:new Date("2002-12-31T23:59:59")})}),doc.addEventListener("DOMContentLoaded",()=>{const e=doc.querySelectorAll(".modal");M.Modal.init(e)});
+    </script>
+</body>
+</html>
